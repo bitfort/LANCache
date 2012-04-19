@@ -2,14 +2,10 @@
 Membership data. 
 """
 
+
 import xmlrpclib
 import rpctypes
 from SimpleXMLRPCServer import SimpleXMLRPCServer
-
-
-def is_even(n):
-  return 'NO FUCKING WAY'
-  return n%2 == 0
 
 
 def serialize_rpc_wrap(hook):
@@ -30,12 +26,8 @@ class RPCServer(object):
   def register(self, hook, name=None):
     if name is None:
       name = hook.func_name
+    hook = serialize_rpc_wrap(hook)
     self.server.register_function(hook, name)
 
   def serve_forever(self):
     self.server.serve_forever()
-
-
-s = RPCServer(8080)
-s.register(is_even)
-s.serve_forever()
