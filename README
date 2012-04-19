@@ -6,5 +6,25 @@
 |_______ \____|__  /\____|__  /\______  (____  /\___  >___|  /\___  >
         \/       \/         \/        \/     \/     \/     \/     \/ 
 
+API:
+
+Takes a uuid of a file, and returns either a direct http link (or local filesystem link), or a server address to search next
+route(uuid) -> (status_code, payload)
+  status_code: DATA, BAD, NEXT
+  payload: server address, data url, None
 
 
+Notifies your parent that you have joined its network and can server any file in the lsit of uuids
+join(uuid[]) -> None
+
+Used by a parent to ensure a child still has a file it claimed to have during join
+ping(uuid) -> bool
+
+Adds a file to the system. Only should be called on the grand master
+add(uuid, url) -> None
+
+Gets the address of the parent you should use. Should only be called on the grand master
+reccomend(net_fingerprint) -> server address
+
+Used by a non-local server (eg, a network master) to tell the grand master it can be joined
+mjoin(net_fingerprint) -> None
