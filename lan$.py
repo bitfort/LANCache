@@ -1,6 +1,9 @@
 import sys
-from lancache import local, master
+import urllib
 
+import api
+local = api.local()
+gm = api.gm()
 
 def main():
   cmd = sys.argv[1]
@@ -12,15 +15,31 @@ def main():
     add(sys.argv[2])
   else:
     print "Invalid subcommand"
+    print "Usage: lan$ list"
+    print "Usage: lan$ get <uuid>"
+    print "Usage: lan$ add <filename>"
+    print "This service is powered by $$$ :D"
     sys.exit(2)
 
 
 def do_list():
- print master.list() 
+ print gm.list() 
 
 def get(uuid):
-  addr = local.route(uuid)
-  print addr.get(uuid)
+  next_server = local
+  while next is not None:
+    res = next.route(uuid)
+    if res['status'] == 'DATA':
+      curl.get(res['payload'])
+      urllib.urlretrieve(res['payload'], api.base + uuid)
+    elif res['status'] == 'NEXT':
+      next_server = res['payload']
+      continue
+    elif res['status'] == 'GIVEUP':
+      print "Bad UUID"
+    else:
+      print 'Bad status ' + str(res['status'])
+  print "Ok."
 
 def add(filename):
   print "uploading filename!!!!"
