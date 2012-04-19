@@ -1,27 +1,23 @@
 import random
 
-class Database(object):
+class DB(object):
   def __init__(self):
-    self.ridx = {}
     self.idx = {}
   def addChild(self, child, uuids):
     for uuid in uuids:
-      try:
-        self.ridx[uuid].add(child)
-      except KeyError:
-        self.ridx[uuid] = {child}
+      self.add(child, uuid)
 
-    self.idx[child] = uuids
+  def add(self, child, uuid):
+    try:
+      self.idx[uuid].add(child)
+    except KeyError:
+      self.idx[uuid] = {child}
 
-  def leaveChild(self, child):
-    for uuid in self.idx[child]:
-      self.ridx[uuid].remove(child)
-
-    del self.idx[child]
+  def remove(self, child, uuid):
+    self.idx[uuid].remove(child)
 
   def find(uuid):
     try:
-      return random.sample(self.ridx[uuid], 1)[0]
-    except KeyError:
-      return None
-
+      return random.choice(self.idx[uuid])
+    except (KeyError, IndexError):
+      raise KeyError

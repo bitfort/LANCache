@@ -36,7 +36,7 @@ def get(uuid):
     elif res['status'] == 'NEXT':
       next_server = res['payload']
       continue
-    elif res['status'] == 'GIVEUP':
+    elif res['status'] == 'BAD':
       print "Bad UUID"
     else:
       print 'Bad status ' + str(res['status'])

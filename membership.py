@@ -1,26 +1,33 @@
+import db
 
-class Membership(object):
-  def __init__(self, database):
-    self.db = database
-    self.__children = set()
 
-    # parent code?
-    self.__parent = None
-  def join(self, addr, uuids):
-    self.__children.add(addr)
-    self.db.addChild(addr, uuids)
+class Server(object):
+  def __init__(self):
+    self.db = db.db()
+    self.parent = None
 
-  def leave(self, addr):
-    self.db.leaveChild(addr)
-    self.__children.remove(addr)
+  def join(self, child, uuids):
+    self.db.addChild(child, uuids)
 
-  def children(self):
-    return self.__children
+  def ping(self, uuid):
+    # check for file here
+    return True
 
-  def parent(self):
-    return self.__parent
+  def add(self, uuid, url):
+    # blah
+    pass
 
-  def find(self, uuid):
-    return self.db.find(uuid)
-
+  def route(self, uuid):
+    try:
+      while True:
+        child = self.db.find(uuid)
+        if child.find(uuid).query(uuid):
+          return ("DATA", child)
+        else:
+          self.db.remove(child, uuid)
+    except KeyError:
+      if parent is not None:
+        return ("NEXT", self.parent)
+      else:
+        return ("BAD", None)
 
