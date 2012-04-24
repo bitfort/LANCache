@@ -1,0 +1,12 @@
+{ 
+  "grand_master" :
+    {
+      "host" : "127.0.0.1",
+      "port" : 8081
+    },
+  "local_master" :
+    {
+      "host" : "127.0.0.1",
+      "port" : 8080
+    }
+}

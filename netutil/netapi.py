@@ -12,12 +12,10 @@ import rpcutil
 class NetLayer(object):
   def __init__(self, conf):
     self.conf = conf
-    self.__gm_ref = rpcutil.RPC_REF(*conf.grand_master)
-    self.__local_ref = rpcutil.RPC_REF(*conf.local_master)
 
   def _connect(self):
-    self.grand_master = rpcutil.connect_to_server(self.__gm_ref)
-    self.local_master = rpcutil.connect_to_server(self.__local_ref)
+    self.grand_master = rpcutil.RPCHandle(*self.conf.grand_master)
+    self.local_master = rpcutil.RPCHandle(*self.conf.local_master)
     
   
 def connect():
@@ -31,5 +29,6 @@ def connect_or_die():
   try:
     return connect()
   except Exception, e:
+    print 'Failed to Connect:'
     print e
-    raise SystemExit
+    raise e
