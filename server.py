@@ -3,9 +3,9 @@ import netutil
 
 
 class Server(object):
-  def __init__(self):
+  def __init__(self, parent):
     self.db = db.DB()
-    self.parent = None
+    self.parent = parent
 
   def join(self, db):
     self.db.addDb(db)
@@ -13,12 +13,6 @@ class Server(object):
   def ping(self, uuid):
     # check for file here
     return True
-
-  def add(self, uuid, url):
-    self.db.add(uuid, url)
-
-  def list(self):
-    return self.db.list()
 
   def route(self, uuid):
     try:
@@ -29,7 +23,9 @@ class Server(object):
       else:
         return ("BAD", None)
 
-s = Server()
+parent = gm.suggest() # FIXME
+
+s = Server(parent)
 
 rpcs = netutil.LocalMasterServer()
 rpcs.register(s.join);
@@ -38,4 +34,16 @@ rpcs.register(s.route);
 rpcs.register(s.ping);
 rpcs.register(s.list);
 
-rpcs.run()
+rpcs.start()
+
+gm = netutil.connect_or_die().grand_master
+
+
+def get_local_files():
+  """ gets a { UUID : URL }
+  """
+  return
+
+while True:
+  parent.join(get_local_files())
+  # sleep(1000)
