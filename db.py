@@ -3,6 +3,7 @@ import random
 class DB(object):
   def __init__(self):
     self.idx = {}
+
   def addChild(self, child, uuids):
     for uuid in uuids:
       self.add(child, uuid)

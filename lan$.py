@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 import sys
 import urllib
+import netutil.netapi
 
-import api
-local = api.local()
-gm = api.gm()
+server = netutil.netapi.connect_or_die()
+
+local = server.local_master
+gm = server.grand_master
 
 def main():
   cmd = sys.argv[1]
