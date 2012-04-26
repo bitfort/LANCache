@@ -6,7 +6,6 @@ import netutil.netapi
 server = netutil.netapi.connect_or_die()
 
 local = server.local_master
-gm = server.grand_master
 
 def main():
   cmd = sys.argv[1]
@@ -26,23 +25,31 @@ def main():
 
 
 def do_list():
- print gm.list() 
+ print local.list() 
+
+STATUS = 0
+PAYLOAD = 1
 
 def get(uuid):
-  next_server = local
+  next = local
   while next is not None:
     res = next.route(uuid)
-    if res['status'] == 'DATA':
-      curl.get(res['payload'])
-      urllib.urlretrieve(res['payload'], api.base + uuid)
-    elif res['status'] == 'NEXT':
-      next_server = res['payload']
+    print res
+    if res[STATUS] == 'DATA':
+      print res
+      urllib.urlretrieve(res[PAYLOAD][0])
+      return
+    elif res[STATUS] == 'NEXT':
+      next = res[PAYLOAD]
       continue
-    elif res['status'] == 'BAD':
+    elif res[STATUS] == 'BAD':
       print "Bad UUID"
+      return
     else:
-      print 'Bad status ' + str(res['status'])
+      print 'Bad status ' + str(res[STATUS])
   print "Ok."
 
 def add(filename):
-  print "uploading filename!!!!"
+  local.add(filename, filename)
+
+main()

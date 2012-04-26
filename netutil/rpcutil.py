@@ -65,7 +65,7 @@ def _guard(hook):
     try:
       r = hook(*neuargs)
       return r
-    except Exception e,
+    except Exception, e:
       traceback.print_exc()
       print e
     return None

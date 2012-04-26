@@ -4,21 +4,21 @@ class DB(object):
   def __init__(self):
     self.idx = {}
 
-  def addChild(self, child, uuids):
-    for uuid in uuids:
-      self.add(child, uuid)
+  def list(self):
+    return self.idx.keys()
 
-  def add(self, child, uuid):
+  def addDb(self, db):
+    for (k,v) in db.items():
+      self.add(k, v)
+
+  def add(self, uuid, url):
     try:
-      self.idx[uuid].add(child)
+      self.idx[uuid].add(url)
     except KeyError:
-      self.idx[uuid] = {child}
+      self.idx[uuid] = {url}
 
-  def remove(self, child, uuid):
-    self.idx[uuid].remove(child)
+  #def remove(self, uuid, url):
+  #  self.idx[uuid].remove(url)
 
-  def find(uuid):
-    try:
-      return random.choice(self.idx[uuid])
-    except (KeyError, IndexError):
-      raise KeyError
+  def find(self, uuid):
+    return list(self.idx[uuid])

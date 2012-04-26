@@ -1,33 +1,41 @@
 import db
+import netutil
 
 
 class Server(object):
   def __init__(self):
-    self.db = db.db()
+    self.db = db.DB()
     self.parent = None
 
-  def join(self, child, uuids):
-    self.db.addChild(child, uuids)
+  def join(self, db):
+    self.db.addDb(db)
 
   def ping(self, uuid):
     # check for file here
     return True
 
   def add(self, uuid, url):
-    # blah
-    pass
+    self.db.add(uuid, url)
+
+  def list(self):
+    return self.db.list()
 
   def route(self, uuid):
     try:
-      while True:
-        child = self.db.find(uuid)
-        if child.find(uuid).query(uuid):
-          return ("DATA", child)
-        else:
-          self.db.remove(child, uuid)
+      return ("DATA", self.db.find(uuid))
     except KeyError:
-      if parent is not None:
+      if self.parent is not None:
         return ("NEXT", self.parent)
       else:
         return ("BAD", None)
 
+s = Server()
+
+rpcs = netutil.LocalMasterServer()
+rpcs.register(s.join);
+rpcs.register(s.add);
+rpcs.register(s.route);
+rpcs.register(s.ping);
+rpcs.register(s.list);
+
+rpcs.run()
