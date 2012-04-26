@@ -5,6 +5,7 @@ Types used in RPC
 """
 
 
+import traceback
 import threading
 import collections as collect
 import xmlrpclib
@@ -61,7 +62,13 @@ def _guard(hook):
       else:
         neuargs.append(arg)
     print 'Invoking ', hook, ' with', neuargs
-    return hook(*neuargs)
+    try:
+      r = hook(*neuargs)
+      return r
+    except Exception e,
+      traceback.print_exc()
+      print e
+    return None
   return __
 
 
