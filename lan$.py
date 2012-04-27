@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import sys
-import urllib
+import downloader
 import netutil.netapi
 import api.S3 as s3
 import os
@@ -54,7 +54,7 @@ def get(filename):
     print res
     if res[STATUS] == 'DATA':
       print res
-      urllib.urlretrieve(res[PAYLOAD][0])
+      downloader.Downloader(res[PAYLOAD][0]).run()
       return
     elif res[STATUS] == 'NEXT':
       next = res[PAYLOAD]
