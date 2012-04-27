@@ -28,6 +28,7 @@ class Conf(object):
                          int(js['grand_master']['port']))
     self.local_master = (js['local_master']['host'], 
                          int(js['local_master']['port']))
+    self.port = js['port']
 
 
 def load_conf(filename=_NET_CONF_FILE):
