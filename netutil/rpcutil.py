@@ -68,6 +68,7 @@ def _guard(hook):
     except Exception, e:
       traceback.print_exc()
       print e
+      raise SystemExit
     return None
   return __
 
