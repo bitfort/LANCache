@@ -2,6 +2,7 @@ import db
 from os import listdir
 from os.path import isfile, join
 import netutil
+from netutil import as_url
 
 
 class Server(object):
@@ -38,14 +39,10 @@ rpcs.register(s.list);
 
 rpcs.start()
 
-gm = netutil.connect_or_die().grand_master
-
-
-def get_local_files():
+def get_local_files(path):
   """ gets a { UUID : URL }
   """
-  # FIXME
-  onlyfiles = [ f for f in listdir(mypath) if isfile(join(mypath,f)) ]
+  return { f:as_url(f) for f in listdir(path) if isfile(join(path,f)) }
 
 while True:
   parent.join(get_local_files())
