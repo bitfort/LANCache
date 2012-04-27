@@ -1,4 +1,6 @@
 import db
+from os import listdir
+from os.path import isfile, join
 import netutil
 
 
@@ -42,7 +44,8 @@ gm = netutil.connect_or_die().grand_master
 def get_local_files():
   """ gets a { UUID : URL }
   """
-  return
+  # FIXME
+  onlyfiles = [ f for f in listdir(mypath) if isfile(join(mypath,f)) ]
 
 while True:
   parent.join(get_local_files())

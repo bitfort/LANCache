@@ -2,10 +2,15 @@
 import sys
 import urllib
 import netutil.netapi
+import api.S3 as s3
+import os
 
 server = netutil.netapi.connect_or_die()
 
 local = server.local_master
+
+gm = s3.AWSAuthConnection("AKIAI5C3B4IPLZDLBPKA", "QAzLIUIATfMX3JnxzrKm5Xd3YWB6k5tTxle0U22B")
+BUCKET = "capel_bittorf"
 
 def main():
   cmd = sys.argv[1]
@@ -18,22 +23,34 @@ def main():
   else:
     print "Invalid subcommand"
     print "Usage: lan$ list"
-    print "Usage: lan$ get <uuid>"
+    print "Usage: lan$ get <file>"
     print "Usage: lan$ add <filename>"
     print "This service is powered by $$$ :D"
     sys.exit(2)
 
-
 def do_list():
- print local.list() 
+  for e in gm.list_bucket(BUCKET).entries:
+    print e.key, ':', e.size
 
 STATUS = 0
 PAYLOAD = 1
 
-def get(uuid):
+def get(filename):
+  if os.path.exists(filename):
+    print "Local file exists, please move it first"
+    return
+  obj = gm.get(BUCKET, filename);
+  if obj.message != "200 OK":
+    print "Bad filename, message:"
+    print obj.message
+    return
+  with open(filename, 'w') as f:
+    f.write(obj.object.data)
+  return
+
   next = local
   while next is not None:
-    res = next.route(uuid)
+    res = next.route(filename)
     print res
     if res[STATUS] == 'DATA':
       print res
@@ -42,14 +59,21 @@ def get(uuid):
     elif res[STATUS] == 'NEXT':
       next = res[PAYLOAD]
       continue
-    elif res[STATUS] == 'BAD':
-      print "Bad UUID"
+    # get from S3
+    elif res[STATUS] == 'GM':
+      obj = gm.get(BUCKET, filename);
+      vars(obj)
+      with open(filename, 'w') as f:
+        f.write(obj.object.data)
+      print "-> ", filename
       return
     else:
       print 'Bad status ' + str(res[STATUS])
   print "Ok."
 
 def add(filename):
-  local.add(filename, filename)
+  with open(filename) as f:
+    gm.put(BUCKET, filename, f)
 
 main()
+
