@@ -21,7 +21,7 @@ class LocalMasterServer(RPCServer):
     conf = netconf.load_conf()
     super(LocalMasterServer, self).__init__(conf.local_master[1])
 
-HOST = socket.gethostbyname(socket.gethostname())
+#HOST = socket.gethostbyname(socket.gethostname())
 
 def as_url(basename):
   conf = netconf.load_conf()
