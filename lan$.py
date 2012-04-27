@@ -36,17 +36,6 @@ STATUS = 0
 PAYLOAD = 1
 
 def get(filename):
-  if os.path.exists(filename):
-    print "Local file exists, please move it first"
-    return
-  obj = gm.get(BUCKET, filename);
-  if obj.message != "200 OK":
-    print "Bad filename, message:"
-    print obj.message
-    return
-  with open(filename, 'w') as f:
-    f.write(obj.object.data)
-  return
 
   next = local
   while next is not None:
@@ -61,15 +50,22 @@ def get(filename):
       continue
     # get from S3
     elif res[STATUS] == 'GM':
-      obj = gm.get(BUCKET, filename);
-      vars(obj)
-      with open(filename, 'w') as f:
+      target = os.path.join(os.path.dirname(__file__), "data", filename)
+      if os.path.exists(target):
+        print "Local file exists, please move it first"
+        return
+      obj = gm.get(BUCKET, filename)
+      if obj.message != "200 OK":
+        print "Bad filename, message:"
+        print obj.message
+        return
+      with open(target, 'w') as f:
         f.write(obj.object.data)
-      print "-> ", filename
       return
+
     else:
-      print 'Bad status ' + str(res[STATUS])
-  print "Ok."
+      print res
+      print "?!?"
 
 def add(filename):
   with open(filename) as f:
