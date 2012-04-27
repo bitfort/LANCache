@@ -1,5 +1,6 @@
 import threading
 import urllib
+import os.path as path
 
 
 class Downloader(threading.Thread):
@@ -8,4 +9,8 @@ class Downloader(threading.Thread):
     self.url = url
 
   def run(self):
-    urllib.urlretrieve(res[PAYLOAD][0])
+    dir_ = path.dirname(__file__)
+    base = path.basename(self.url)
+    target = path.join(dir_, 'data', base)
+    print 'Downloading ', self.url, ' to', target
+    urllib.urlretrieve(self.url, target)
