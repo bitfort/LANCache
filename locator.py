@@ -39,7 +39,7 @@ try:
   while True:
     time.sleep(70)
     nao = time.time()
-    bad = filter(lambda k: MAP[k] < nao, MAP.keys())
+    bad = filter(lambda k: MAP[k][1] < nao, MAP.keys())
     for b in bad:
       print 'Expire: ', b
       del MAP[b]
@@ -48,3 +48,7 @@ except KeyboardInterrupt:
   gm._Thread__stop()
   raise SystemExit
 
+
+print '----------------- WHAT?'
+gm._Thread__stop()
+raise SystemExit
