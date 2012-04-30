@@ -7,10 +7,10 @@ import os
 
 server = netutil.netapi.connect_or_die()
 
-local = server.local_master
+gm = downloader.gm
+BUCKET = downloader.BUCKET
 
-gm = s3.AWSAuthConnection("AKIAI5C3B4IPLZDLBPKA", "QAzLIUIATfMX3JnxzrKm5Xd3YWB6k5tTxle0U22B")
-BUCKET = "capel_bittorf"
+local = server.local_master
 
 def main():
   cmd = sys.argv[1]
@@ -20,6 +20,8 @@ def main():
     get(sys.argv[2])
   elif cmd == "add":
     add(sys.argv[2])
+  elif cmd == 'locateall':
+    locateall()
   else:
     print "Invalid subcommand"
     print "Usage: lan$ list"
@@ -34,6 +36,30 @@ def do_list():
 
 STATUS = 0
 PAYLOAD = 1
+
+def locateall():
+  
+  for e in gm.list_bucket(BUCKET).entries:
+    print '%-10s %6d    %s' % (e.key, e.size, locate(e.key))
+
+def locate(filename):
+  target = os.path.join(os.path.dirname(__file__), "data", filename)
+  if os.path.exists(target):
+    return 'local'
+
+  next = local
+  while next is not None:
+    res = next.route(filename)
+    if res[STATUS] == 'DATA':
+      return str(next)
+    elif res[STATUS] == 'NEXT':
+      next = res[PAYLOAD]
+      continue
+    # get from S3
+    elif res[STATUS] == 'GM':
+      return 'Cloud'
+    else:
+      return '--Unkown?'
 
 def get(filename):
   target = os.path.join(os.path.dirname(__file__), "data", filename)
@@ -57,13 +83,7 @@ def get(filename):
       if os.path.exists(target):
         print "Local file exists, please move it first"
         return
-      obj = gm.get(BUCKET, filename)
-      if obj.message != "200 OK":
-        print "Bad filename, message:"
-        print obj.message
-        return
-      with open(target, 'w') as f:
-        f.write(obj.object.data)
+      downloader.CloudDownloader(filename).run()
       return
 
     else:

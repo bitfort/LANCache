@@ -22,6 +22,7 @@ class Server(object):
       if self.parent is not None:
         return ("NEXT", self.parent)
       else:
+        # download for ourself, for later?
         return ("GM", None)
 
 parent = netutil.connect_to_parent()

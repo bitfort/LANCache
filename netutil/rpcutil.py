@@ -30,7 +30,7 @@ class RPCHandle(object):
     self.proxy = xmlrpclib.ServerProxy(url, allow_none=True) 
 
   def __getattr__(self, name):
-    print self, ' :: ', name
+#    print self, ' :: ', name
     def __(*args):
       neuargs = []
       for arg in args:
@@ -38,13 +38,13 @@ class RPCHandle(object):
           neuargs.append(arg.d)
         else:
           neuargs.append(arg)
-      print 'Remote Calling: ', self, name, 'with', neuargs
+#      print 'Remote Calling: ', self, name, 'with', neuargs
       return getattr(self.proxy, name)(*neuargs)
     return __
 
   @classmethod
   def decode(cls, j):
-    print '*** DECODE **'
+#    print '*** DECODE **'
     return RPCHandle(j['host'], j['port'])
 
   def __str__(self):
@@ -61,7 +61,7 @@ def _guard(hook):
         neuargs.append(RPCHandle.decode(arg))
       else:
         neuargs.append(arg)
-    print 'Invoking ', hook, ' with', neuargs
+#    print 'Invoking ', hook, ' with', neuargs
     try:
       r = hook(*neuargs)
       return r
