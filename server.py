@@ -4,6 +4,7 @@ from os.path import isfile, join
 import netutil
 from netutil import as_url
 from time import sleep
+from optparse import OptionParser
 
 
 class Server(object):
@@ -23,9 +24,20 @@ class Server(object):
       else:
         return ("GM", None)
 
-parent = None 
+parent = netutil.connect_to_parent()
+
+print 'Found a parent' , parent
+
+
+parser = OptionParser()
+parser.add_option("-a", "--annonuce", dest="announce",action="store_true",
+                      help="Lets this server parent other's", metavar="ANNOC")
+
+(options, args) = parser.parse_args()
 
 s = Server(parent)
+
+gm = netutil.connect_or_die().grand_master
 
 rpcs = netutil.LocalMasterServer()
 rpcs.register(s.join);
@@ -39,11 +51,17 @@ def get_local_files(path):
   return { f:as_url(f) for f in listdir(path) if isfile(join(path,f)) }
 
 while True:
+  # remind the GM that we are a masta
+  if options.announce:
+    netutil.announce()
+  
+
   files = get_local_files("data")
-  print files
+  print files, ' < < '
   if not files:
+    sleep(1)
     continue
   s.join(files)
   if parent:
     parent.join(files)
-  sleep(10000)
+  sleep(10)

@@ -16,5 +16,3 @@ def get_raw_trace():
     lst.append((host, ip))
   return lst
 
-print get_raw_trace()
-
