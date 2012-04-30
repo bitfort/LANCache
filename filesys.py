@@ -27,7 +27,10 @@ class WriteHandle(object):
   def close(self):
     target = os.path.join(os.path.dirname(__file__), "data", self.name)
     os.rename(self.handle.name, target)
-    Async(lan.add, self.name)
+    def __():
+      lan.add(self.name)
+      lan.local_update
+    Async(__)
 
 
 class ReadHandle(object):

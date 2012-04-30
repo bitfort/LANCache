@@ -16,6 +16,8 @@ s.connect(("gmail.com",80))
 HOST = s.getsockname()[0]
 s.close()
 
+FINGER_PRINT = None
+
 print 'You are ', HOST
 
 
@@ -35,6 +37,10 @@ def as_url(basename):
   conf = netconf.load_conf()
   return 'http://{0}:{1}/{2}'.format(HOST, conf.port, basename)
 
+def get_finger_print():
+  if not FINGER_PRINT:
+    FINGER_PRINT = nettool.get_raw_trace()[0]
+  return FINGER_PRINT
 
 def connect_to_parent():
   trace = nettool.get_raw_trace()

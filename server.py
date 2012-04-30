@@ -40,9 +40,8 @@ s = Server(parent)
 
 gm = netutil.connect_or_die().grand_master
 
-rpcs = netutil.LocalMasterServer()
-rpcs.register(s.join);
-rpcs.register(s.route);
+
+
 
 rpcs.start()
 
@@ -51,21 +50,27 @@ def get_local_files(path):
   """
   return { f:as_url(f) for f in listdir(path) if isfile(join(path,f)) }
 
+def local_update():
+    files = get_local_files("data")
+    print files, ' < < '
+    if not files:
+      return
+    s.join(files)
+    if parent:
+      parent.join(files)
+
+rpcs = netutil.LocalMasterServer()
+rpcs.register(s.join);
+rpcs.register(s.route);
+rpcs.register(local_update)
+
 try:
   while True:
     # remind the GM that we are a masta
     if options.announce:
       netutil.announce()
     
-
-    files = get_local_files("data")
-    print files, ' < < '
-    if not files:
-      sleep(1)
-      continue
-    s.join(files)
-    if parent:
-      parent.join(files)
+    local_update()
     sleep(10)
 except (Exception, KeyboardInterrupt), e:
   print e

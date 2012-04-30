@@ -30,6 +30,9 @@ def main():
     print "This service is powered by $$$ :D"
     sys.exit(2)
 
+def local_update():
+  local.local_update()
+
 def do_list():
   for e in gm.list_bucket(BUCKET).entries:
     print e.key, ':', e.size
@@ -62,6 +65,7 @@ def locate(filename):
       return '--Unkown?'
 
 def get(filename):
+  print 'GET: ', filename
   target = os.path.join(os.path.dirname(__file__), "data", filename)
   if os.path.exists(target):
     print "Already have it."

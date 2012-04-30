@@ -11,6 +11,8 @@ gm = netutil.GrandMasterServer()
 
 
 MAP = collections.defaultdict(lambda: None)
+Qs = collections.defaultdict(lambda: 
+    collections.defaultdict(lambda: list))
 
 
 def suggest(trace):
@@ -22,12 +24,23 @@ def suggest(trace):
     parent = parent[0]
     print 'SUGGEST: {0} => {1[0]}:{1[1]}'.format(part, parent)
   return parent
-  
 
 
 def announce( (host, port), trace):
   print 'ANNOUNCE: {0}:{1} for {2}'.format(host, port, trace[0]) 
   MAP[str(trace[0])] = ((host, port), time.time() + LEASE)
+
+def push(qname, net, value):
+  Qs[qname][net].append(value)
+
+def pull(qname, net):
+  if len(Qs[qnamae][net]) > 0:
+    return Qs[qname][net].pop(0)
+  else:
+    for k in Qs.keys():
+      if len(Qs[k]) > 0:
+        return Qs[k].pop(0)
+  return None
 
 
 gm.register(suggest)
