@@ -36,6 +36,10 @@ STATUS = 0
 PAYLOAD = 1
 
 def get(filename):
+  target = os.path.join(os.path.dirname(__file__), "data", filename)
+  if os.path.exists(target):
+    print "Already have it."
+    return
 
   next = local
   while next is not None:
@@ -50,7 +54,6 @@ def get(filename):
       continue
     # get from S3
     elif res[STATUS] == 'GM':
-      target = os.path.join(os.path.dirname(__file__), "data", filename)
       if os.path.exists(target):
         print "Local file exists, please move it first"
         return
@@ -71,5 +74,7 @@ def add(filename):
   with open(filename) as f:
     gm.put(BUCKET, filename, f)
 
-main()
+
+if __name__ == "__main__"
+  main()
 
