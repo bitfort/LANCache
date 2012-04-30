@@ -50,18 +50,24 @@ def get_local_files(path):
   """
   return { f:as_url(f) for f in listdir(path) if isfile(join(path,f)) }
 
-while True:
-  # remind the GM that we are a masta
-  if options.announce:
-    netutil.announce()
-  
+try:
+  while True:
+    # remind the GM that we are a masta
+    if options.announce:
+      netutil.announce()
+    
 
-  files = get_local_files("data")
-  print files, ' < < '
-  if not files:
-    sleep(1)
-    continue
-  s.join(files)
-  if parent:
-    parent.join(files)
-  sleep(10)
+    files = get_local_files("data")
+    print files, ' < < '
+    if not files:
+      sleep(1)
+      continue
+    s.join(files)
+    if parent:
+      parent.join(files)
+    sleep(10)
+except (Exception, KeyboardInterrupt), e:
+  print e
+  print '-- Exiting.'
+  rpcs._Thread__stop()
+  raise SystemExit

@@ -42,7 +42,9 @@ def connect_to_parent():
   print trace 
   print 
   parent = connect_or_die().grand_master.suggest(trace)
-  return parent
+  if parent is None:
+    return None
+  return RPCHandle(parent[0], parent[1])
 
 def announce():
   gm = connect_or_die().grand_master
