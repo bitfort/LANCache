@@ -25,16 +25,16 @@ class Server(object):
         # download for ourself, for later?
         return ("GM", None)
 
-parent = netutil.connect_to_parent()
-
-print 'Found a parent' , parent
-
-
 parser = OptionParser()
 parser.add_option("-a", "--annonuce", dest="announce",action="store_true",
                       help="Lets this server parent other's", metavar="ANNOC")
 
 (options, args) = parser.parse_args()
+parent = netutil.connect_to_parent()
+
+print 'Found a parent' , parent
+
+
 
 s = Server(parent)
 
