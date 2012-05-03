@@ -4,6 +4,7 @@ import downloader
 import netutil
 import api.S3 as s3
 import os
+import urlparse
 
 
 gm = downloader.gm
@@ -41,9 +42,9 @@ STATUS = 0
 PAYLOAD = 1
 
 def locateall():
-  
   for e in gm.list_bucket(BUCKET).entries:
-    print '%-10s %6d    %s' % (e.key, e.size, locate(e.key))
+    place = locate(e.key)
+    print '%-10s %6d    %s' % (e.key, e.size, place)
 
 def locate(filename):
   target = os.path.join(os.path.dirname(__file__), "data", filename)
@@ -54,7 +55,7 @@ def locate(filename):
   while next is not None:
     res = next.route(filename)
     if res[STATUS] == 'DATA':
-      return str(next)
+      return urlparse.urlparse(res[PAYLOAD][0]).hostname
     elif res[STATUS] == 'NEXT':
       next = res[PAYLOAD]
       continue
