@@ -30,7 +30,7 @@ class GrandMasterServer(RPCServer):
 class LocalMasterServer(RPCServer):
   def __init__(self):
     conf = netconf.load_conf()
-    super(LocalMasterServer, self).__init__(conf.local_master[1])
+    super(LocalMasterServer, self).__init__(conf.local_master[1], host=HOST)
 
 #HOST = socket.gethostbyname(socket.gethostname())
 
