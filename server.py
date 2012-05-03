@@ -43,7 +43,6 @@ gm = netutil.connect_or_die().grand_master
 
 
 
-rpcs.start()
 
 def get_local_files(path):
   """ gets a { UUID : URL }
@@ -63,6 +62,8 @@ rpcs = netutil.LocalMasterServer()
 rpcs.register(s.join);
 rpcs.register(s.route);
 rpcs.register(local_update)
+
+rpcs.start()
 
 try:
   while True:
