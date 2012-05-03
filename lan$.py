@@ -96,9 +96,11 @@ def get(filename):
       print "?!?"
 
 def add(filename):
+  print filename
   with open(filename) as f:
     gm.put(BUCKET, os.path.basename(filename), f)
     if not os.path.exists(os.path.join("data", os.path.basename(filename))):
+      print 'Doing linking'
       os.link(filename, os.path.join("data", os.path.basename(filename)))
 
 
