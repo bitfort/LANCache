@@ -2,12 +2,17 @@
 import netutil
 import time
 
-server = netutil.connect_or_die()
-chubby = server.grand_master
+chubby = netutil.connect_to_gm()
 
 finger = netutil.get_finger_print()
 
 SLEEP = 1
+
+def push(q, x):
+  chubby.push(q, finger, x)
+
+def pull(q):
+  chubby.pull(q, finger)
 
 def produce_all(q, gen):
   for x in gen:

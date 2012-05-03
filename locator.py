@@ -45,6 +45,8 @@ def pull(qname, net):
 
 gm.register(suggest)
 gm.register(announce)
+gm.register(push)
+gm.register(pull)
 
 gm.start()
 

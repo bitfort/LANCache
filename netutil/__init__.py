@@ -46,6 +46,7 @@ def as_url(basename):
   return 'http://{0}:{1}/{2}'.format(HOST, conf.port, basename)
 
 def get_finger_print():
+  global FINGER_PRINT
   if not FINGER_PRINT:
     FINGER_PRINT = nettool.get_raw_trace()[0]
   return FINGER_PRINT
