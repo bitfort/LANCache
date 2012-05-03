@@ -5,6 +5,7 @@ import netutil
 from netutil import as_url
 from time import sleep
 from optparse import OptionParser
+import traceback
 
 
 class Server(object):
@@ -75,6 +76,7 @@ try:
     sleep(10)
 except (Exception, KeyboardInterrupt), e:
   print e
+  traceback.print_exc()
   print '-- Exiting.'
   rpcs._Thread__stop()
   raise SystemExit

@@ -36,7 +36,7 @@ class LocalMasterServer(RPCServer):
 
 def as_url(basename):
   conf = netconf.load_conf()
-  return 'http://{0}:{1}/{2}'.format(HOST, conf.port, basename)
+  return 'http://{0}:{1}/{2}'.format(HOST, conf.local_master[1], basename)
 
 def get_finger_print():
   if not FINGER_PRINT:
