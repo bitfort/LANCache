@@ -24,4 +24,4 @@ def consume_all(q, con):
     if x:
       con(s)
     else:
-      sleep(SLEEP)
+      time.sleep(SLEEP)
