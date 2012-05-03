@@ -39,11 +39,6 @@ print 'Found a parent' , parent
 
 s = Server(parent)
 
-gm = netutil.connect_or_die().grand_master
-
-
-
-
 
 def get_local_files(path):
   """ gets a { UUID : URL }

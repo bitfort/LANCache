@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 import sys
 import downloader
-import netutil.netapi
+import netutil
 import api.S3 as s3
 import os
 
-server = netutil.netapi.connect_or_die()
 
 gm = downloader.gm
 BUCKET = downloader.BUCKET
 
-local = server.local_master
+local = netutil.connect_to_loopback()
+
 
 def main():
   cmd = sys.argv[1]
@@ -52,6 +52,7 @@ def locate(filename):
 
   next = local
   while next is not None:
+    print next
     res = next.route(filename)
     if res[STATUS] == 'DATA':
       return str(next)
