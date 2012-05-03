@@ -12,7 +12,7 @@ def push(q, x):
   chubby.push(q, finger, x)
 
 def pull(q):
-  chubby.pull(q, finger)
+  return chubby.pull(q, finger)
 
 def produce_all(q, gen):
   for x in gen:
