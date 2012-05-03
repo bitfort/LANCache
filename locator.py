@@ -12,7 +12,7 @@ gm = netutil.GrandMasterServer()
 
 MAP = collections.defaultdict(lambda: None)
 Qs = collections.defaultdict(lambda: 
-    collections.defaultdict(lambda: list))
+    collections.defaultdict(lambda: []))
 
 
 def suggest(trace):
@@ -31,15 +31,30 @@ def announce( (host, port), trace):
   MAP[str(trace[0])] = ((host, port), time.time() + LEASE)
 
 def push(qname, net, value):
-  Qs[qname][net].append(value)
+  print Qs
+  net = str(net)
+  print 'push for: ', net
+  print Qs[qname][net]
+  l =  Qs[qname][net]
+  print l, value
+  l.append(value)
 
 def pull(qname, net):
-  if len(Qs[qnamae][net]) > 0:
-    return Qs[qname][net].pop(0)
+  print Qs
+  net = str(net)
+  print 'Pull for: ', net
+  if len(Qs[qname][net]) > 0:
+    print 'Hit local!'
+    v = Qs[qname][net].pop(0)
+    print 'Got :', v
+    return v
   else:
-    for k in Qs.keys():
-      if len(Qs[k]) > 0:
+    print 'Nothing in local queue'
+    for k in Qs[qname].keys():
+      if len(Qs[qname][k]) > 0:
+        print 'Found something for: ', k
         return Qs[k].pop(0)
+  print 'Found nothing for you.'
   return None
 
 
