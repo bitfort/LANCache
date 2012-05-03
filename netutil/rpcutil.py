@@ -18,7 +18,7 @@ class BadIdeaException(Exception): pass
 
 
 class RPCHandle(object):
-  def __init__(self, host, port):
+  def __init__(self, host=None, port=None, RPC=None):
     self.host = host
     self.port = port
     self.d = {'RPC':'flag', 'host' : self.host, 'port' : self.port}
@@ -38,8 +38,17 @@ class RPCHandle(object):
           neuargs.append(arg.d)
         else:
           neuargs.append(arg)
-#      print 'Remote Calling: ', self, name, 'with', neuargs
-      return getattr(self.proxy, name)(*neuargs)
+      print 'Remote Calling: ', self, name, 'with', neuargs
+      rval = getattr(self.proxy, name)(*neuargs)
+      l = []
+      if type(rval) is list:
+        for arg in rval:
+          if (type(arg) is dict )and('RPC' in arg):
+            l.append(RPCHandle(**arg))
+          else:
+            l.append(arg)
+        return l
+      return rval
     return __
 
   @classmethod
@@ -64,7 +73,17 @@ def _guard(hook):
 #    print 'Invoking ', hook, ' with', neuargs
     try:
       r = hook(*neuargs)
-      return r
+      l = []
+      if type(r) is list or type(r) is tuple:
+        for arg in r:
+          if type(arg) is RPCHandle:
+            l.append(arg.d)
+          else:
+            l.append(arg)
+        return l
+      else:
+        return r
+
     except Exception, e:
       traceback.print_exc()
       print e

@@ -17,10 +17,14 @@ class Server(object):
     self.db.addDb(db)
 
   def route(self, uuid):
+    print 'Route Called:', uuid
     try:
-      return ("DATA", self.db.find(uuid))
+      my = self.db.find(uuid)
+      print 'Route returns: ', my
+      return ("DATA", my)
     except KeyError:
       if self.parent is not None:
+        print 'Route returns: => parent', self.parent
         return ("NEXT", self.parent)
       else:
         # download for ourself, for later?
