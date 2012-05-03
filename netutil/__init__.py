@@ -24,7 +24,8 @@ print 'You are ', HOST
 class GrandMasterServer(RPCServer):
   def __init__(self):
     conf = netconf.load_conf()
-    super(GrandMasterServer, self).__init__(conf.grand_master[1])
+    super(GrandMasterServer, self).__init__(conf.grand_master[1],
+        host=conf.grand_master[0])
 
 class LocalMasterServer(RPCServer):
   def __init__(self):
