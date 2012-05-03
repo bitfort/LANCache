@@ -26,7 +26,7 @@ class RPCHandle(object):
 
   def __connect(self):
     url = "http://{0}:{1}/".format(self.host, self.port)
-    print 'Connecting to ', url
+    # print 'Connecting to ', url
     self.proxy = xmlrpclib.ServerProxy(url, allow_none=True) 
 
   def __getattr__(self, name):
@@ -38,7 +38,7 @@ class RPCHandle(object):
           neuargs.append(arg.d)
         else:
           neuargs.append(arg)
-      print 'Remote Calling: ', self, name, 'with', neuargs
+      # print 'Remote Calling: ', self, name, 'with', neuargs
       rval = getattr(self.proxy, name)(*neuargs)
       l = []
       if type(rval) is list:

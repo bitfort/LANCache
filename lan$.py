@@ -52,7 +52,6 @@ def locate(filename):
 
   next = local
   while next is not None:
-    print next
     res = next.route(filename)
     if res[STATUS] == 'DATA':
       return str(next)
