@@ -98,7 +98,8 @@ def get(filename):
 def add(filename):
   with open(filename) as f:
     gm.put(BUCKET, os.path.basename(filename), f)
-    os.link(filename, os.path.join("data", os.path.basename(filename)))
+    if not os.exists(os.path.join("data", os.path.basename(filename))):
+      os.link(filename, os.path.join("data", os.path.basename(filename)))
 
 
 if __name__ == "__main__":
