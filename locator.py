@@ -67,9 +67,10 @@ gm.start()
 
 try:
   while True:
-    for i in xrange(6):
-      print MAP
-      time.sleep(10)
+    for i in xrange(4):
+      for ke in MAP.keys():
+        print ke, ':'.join(map[k][0])
+      time.sleep(20)
     nao = time.time()
     bad = filter(lambda k: MAP[k][1] < nao, MAP.keys())
     for b in bad:
