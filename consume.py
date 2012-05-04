@@ -13,7 +13,7 @@ print 'Consuming '
 for i in xrange(5):
   name = chubby.pull('testq', name)
   print name, time.time(),
-  f = filesys._open(name, 'w')
+  f = filesys.open_(name, 'w')
   print time.time(),
   f.read()
   print time.time()

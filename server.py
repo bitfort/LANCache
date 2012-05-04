@@ -59,8 +59,8 @@ def local_update():
       parent.join(files)
 
 rpcs = netutil.LocalMasterServer()
-rpcs.register(s.join);
-rpcs.register(s.route);
+rpcs.register(s.join)
+rpcs.register(s.route)
 rpcs.register(local_update)
 
 rpcs.start()

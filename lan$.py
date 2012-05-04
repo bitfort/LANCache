@@ -23,6 +23,8 @@ def main():
     add(sys.argv[2])
   elif cmd == 'locateall':
     locateall()
+  elif cmd == 'update':
+    local_update()
   elif cmd == "delete":
     delete(sys.argv[2])
   else:
