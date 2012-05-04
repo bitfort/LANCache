@@ -23,6 +23,8 @@ def main():
     add(sys.argv[2])
   elif cmd == 'locateall':
     locateall()
+  elif cmd == "delete":
+    delete(sys.argv[2])
   else:
     print "Invalid subcommand"
     print "Usage: lan$ list"
@@ -37,6 +39,12 @@ def local_update():
 def do_list():
   for e in gm.list_bucket(BUCKET).entries:
     print e.key, ':', e.size
+
+# DEBUG ONLY
+def delete(prefix):
+  for e in gm.list_bucket(BUCKET).entries:
+    if e.key.startswith(prefix):
+      gm.delete(BUCKET, e.key)
 
 STATUS = 0
 PAYLOAD = 1
