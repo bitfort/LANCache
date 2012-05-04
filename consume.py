@@ -7,17 +7,14 @@ import filesys
 
 start = time.time()
 tag = sys.argv[1]
-print 'Producing : ', tag
+print 'Consuming ' 
 
-
-BIG_DATA = 'eightbyt'*1024
 
 for i in xrange(5):
-  name = '{0}-{1}-{2}'.format(tag, start, i)
+  name = chubby.pull('testq', name)
   print name, time.time(),
   f = filesys._open(name, 'w')
   print time.time(),
-  f.write(BIG_DATA)
+  f.read()
   print time.time()
   f.close()
-  chubby.push('testq', name)
