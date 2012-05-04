@@ -22,14 +22,14 @@ class WriteHandle(object):
   def __init__(self, name):
     self.name = name
     self.fullname = os.path.join(os.path.dirname(__file__), "data", self.name)
-    self.handle = open(fullname)
+    self.handle = open(self.fullname, 'w')
 
   def write(self, buf):
     self.handle.write(buf)
 
   def close(self):
     self.handle.flush()
-    self.close()
+    self.handle.close()
 #    def __():
     lan.local_update()
     lan.add(self.fullname)
