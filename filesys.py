@@ -21,15 +21,15 @@ class Async(threading.Thread):
 class WriteHandle(object):
   def __init__(self, name):
     self.name = name
-    self.handle = tempfile.NamedTemporaryFile()
+    self.fullname = os.path.join(os.path.dirname(__file__), "data", self.name)
+    self.handle = open(fullname)
 
   def write(self, buf):
     self.handle.write(buf)
 
   def close(self):
-    self.fullname = os.path.join(os.path.dirname(__file__), "data", self.name)
     self.handle.flush()
-    os.rename(self.handle.name, self.fullname)
+    self.close()
 #    def __():
     lan.local_update()
     lan.add(self.fullname)

@@ -23,5 +23,3 @@ for i in xrange(5):
   chubby.push('testq', name)
 
 
-# ghetto sleep.
-time.sleep(100)
