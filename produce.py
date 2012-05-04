@@ -10,7 +10,7 @@ tag = sys.argv[1]
 print 'Producing : ', tag
 
 
-BIG_DATA = 'eightbyt'*1024
+BIG_DATA = 'eightbyt'*1024*64
 
 for i in xrange(5):
   name = '{0}-{1}-{2}'.format(tag, start, i)

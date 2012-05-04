@@ -8,11 +8,8 @@ import sys
 
 TRACERT = None
 
-if 'darwin' in sys.platform:
-  TRACERT = ["/usr/sbin/traceroute", '-m', '5', 
-                                 'www.google.com']
-else:
-  TRACERT = ["/usr/bin/tracepath", 'www.google.com']
+TRACERT = ["/usr/sbin/traceroute", '-m', '5', 
+                               'www.google.com']
 
 def get_raw_trace():
   txt = subprocess.check_output(TRACERT, stderr=subprocess.PIPE)
