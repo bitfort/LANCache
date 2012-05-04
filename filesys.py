@@ -30,10 +30,10 @@ class WriteHandle(object):
     self.fullname = os.path.join(os.path.dirname(__file__), "data", self.name)
     self.handle.flush()
     os.rename(self.handle.name, self.fullname)
-    def __():
-      lan.add(self.fullname)
-      lan.local_update()
-    Async(__)
+#    def __():
+    lan.local_update()
+    lan.add(self.fullname)
+#    Async(__)
 
 
 class ReadHandle(object):
