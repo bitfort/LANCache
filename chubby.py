@@ -22,6 +22,6 @@ def consume_all(q, con):
   while True:
     x = chubby.pull(q, finger)
     if x:
-      con(s)
+      con(x)
     else:
       time.sleep(SLEEP)
