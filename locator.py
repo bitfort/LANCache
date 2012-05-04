@@ -16,7 +16,7 @@ Qs = collections.defaultdict(lambda:
 
 
 def suggest(trace):
-  part = str(trace[0])
+  part = str(trace)
   parent = MAP[part]
   if parent is None:
     print 'SUGGEST: {0} => None'.format(part)
@@ -27,8 +27,8 @@ def suggest(trace):
 
 
 def announce( (host, port), trace):
-  print 'ANNOUNCE: {0}:{1} for {2}'.format(host, port, trace[0]) 
-  MAP[str(trace[0])] = ((host, port), time.time() + LEASE)
+  print 'ANNOUNCE: {0}:{1} for {2}'.format(host, port, trace) 
+  MAP[str(trace)] = ((host, port), time.time() + LEASE)
 
 def push(qname, net, value):
   print Qs
@@ -67,7 +67,9 @@ gm.start()
 
 try:
   while True:
-    time.sleep(70)
+    for i in xrange(6):
+      print MAP
+      time.sleep(10)
     nao = time.time()
     bad = filter(lambda k: MAP[k][1] < nao, MAP.keys())
     for b in bad:
