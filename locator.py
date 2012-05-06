@@ -1,9 +1,10 @@
 
-
 import time
 import netutil
 import collections
 
+
+BUFFER_SIZE = 5
 
 LEASE = 60
 
@@ -13,6 +14,8 @@ gm = netutil.GrandMasterServer()
 MAP = collections.defaultdict(lambda: None)
 Qs = collections.defaultdict(lambda: 
     collections.defaultdict(lambda: []))
+
+FAMILYQ = []
 
 
 def suggest(trace):
@@ -38,6 +41,10 @@ def push(qname, net, value):
   l =  Qs[qname][net]
   print l, value
   l.append(value)
+  if len(l) > BUFFER_SIZE:
+    for x in l:
+      FAMILYQ.append(x)
+    Qs[qname][net] = []
 
 def pull(qname, net):
   print Qs
@@ -50,6 +57,8 @@ def pull(qname, net):
     return v
   else:
     print 'Nothing in local queue'
+    if len(FAMILYQ) > 0:
+      return FAMILYQ.pop(0)
     for k in Qs[qname].keys():
       if len(Qs[qname][k]) > 0:
         print 'Found something for: ', k
