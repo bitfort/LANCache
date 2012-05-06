@@ -76,18 +76,14 @@ def locate(filename):
       return '--Unkown?'
 
 def get(filename):
-  print 'GET: ', filename
   target = os.path.join(os.path.dirname(__file__), "data", filename)
   if os.path.exists(target):
-    print "Already have it."
     return
 
   next = local
   while next is not None:
     res = next.route(filename)
-    print res
     if res[STATUS] == 'DATA':
-      print res
       downloader.Downloader(res[PAYLOAD][0]).run()
       return
     elif res[STATUS] == 'NEXT':
@@ -110,7 +106,6 @@ def add(filename):
   with open(filename) as f:
     gm.put(BUCKET, os.path.basename(filename), f)
     if not os.path.exists(os.path.join("data", os.path.basename(filename))):
-      print 'Doing linking'
       os.link(filename, os.path.join("data", os.path.basename(filename)))
 
 
