@@ -51,7 +51,6 @@ def get_local_files(path):
 
 def local_update():
     files = get_local_files("data")
-    #print files, ' < < '
     if not files:
       return
     s.join(files)
