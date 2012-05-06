@@ -34,5 +34,4 @@ class Downloader(threading.Thread):
     dir_ = path.dirname(__file__)
     base = path.basename(self.url)
     target = path.join(dir_, 'data', base)
-    print 'Downloading ', self.url, ' to', target
     urllib.urlretrieve(self.url, target)
