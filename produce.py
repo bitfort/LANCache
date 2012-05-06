@@ -10,9 +10,9 @@ tag = sys.argv[1]
 print 'Producing : ', tag
 
 
-BIG_DATA = 'x'*1024*1024*2
+BIG_DATA = 'x'*1024*1024*5
 
-for i in xrange(6):
+for i in xrange(15):
   name = '{0}-{1}-{2}'.format(tag, start, i)
   print name, time.time(),
   f = filesys.open_(name, 'w')

@@ -12,7 +12,8 @@ def consume(name):
   print name, time.time(),
   f = filesys.open_(name, 'r')
   print time.time(),
-  f.read()
+  s = f.read()
+  time.sleep(2e-7 * len(s))
   print time.time()
   f.close()
 
