@@ -2,7 +2,7 @@
   "grand_master" :
     {
       "host" : "ec2-23-22-49-201.compute-1.amazonaws.com",
-      "port" : 8080
+      "port" : 8000
     },
   "local_master" :
     {
