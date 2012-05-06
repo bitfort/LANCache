@@ -27,6 +27,9 @@ def main():
     local_update()
   elif cmd == "delete":
     delete(sys.argv[2])
+  elif cmd == 'nuke_from_orbit' or cmd == 'burn_it_with_fire':
+    print "It's the only way to be sure"
+    delete("")
   else:
     print "Invalid subcommand"
     print "Usage: lan$ list"
